@@ -2,7 +2,7 @@
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
-
+import Image from "next/image";
 import Link from "next/link";
 import { SignIn, SignInButton, UserButton, useUser } from "@clerk/nextjs";
 
@@ -14,10 +14,10 @@ export default function Navbar() {
     const { user, isLoaded } = useUser();
 
     return (
-        <Disclosure as="nav" className="bg-white shadow">
+        <Disclosure as="nav" className="bg-white z-10">
             {({ open }) => (
                 <>
-                    <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+                    <div className=" mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
                         <div className="relative flex h-16 justify-between">
                             <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                                 {/* Mobile menu button */}
@@ -39,14 +39,18 @@ export default function Navbar() {
                                     )}
                                 </Disclosure.Button>
                             </div>
-                            <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                                <div className="flex flex-shrink-0 items-center">
+                            <div className="flex items-center justify-center sm:items-stretch sm:justify-start">
+                                <div className="flex-shrink-0">
                                     <Link href="/">
-                                        <img
-                                            className="h-8 w-auto"
-                                            src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                                            alt="Your Company"
-                                        />
+                                        <div className="flex items-center">
+                                            <Image
+                                                className=""
+                                                width={120}
+                                                height={200}
+                                                src="/ace-logo.png"
+                                                alt="Your Company"
+                                            />
+                                        </div>
                                     </Link>
                                 </div>
                                 <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
@@ -72,7 +76,9 @@ export default function Navbar() {
                                 <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                                     {/* Profile dropdown */}
                                     <SignInButton>
-                                        <button className="text-black">Sign In</button>
+                                        <button className="hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
+                                            Sign In
+                                        </button>
                                     </SignInButton>
                                 </div>
                             )}
