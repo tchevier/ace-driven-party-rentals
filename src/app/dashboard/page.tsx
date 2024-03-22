@@ -33,7 +33,7 @@ export default function DashboardPage() {
     <>
         {
             products.map(product => {
-                return <div key={product.id} className="text-white">{product.name}</div>
+                return <div key={product.id} className="text-black">{product.name}</div>
             })
             
         }

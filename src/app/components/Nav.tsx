@@ -9,7 +9,7 @@ import { SignIn, SignInButton, UserButton, useUser } from "@clerk/nextjs";
 function classNames(...classes: any[]) {
     return classes.filter(Boolean).join(" ");
 }
-
+const navigation = [{ href: "/inventory", name: "Inventory" }];
 export default function Navbar() {
     const { user, isLoaded } = useUser();
 
@@ -64,6 +64,17 @@ export default function Navbar() {
                                             </Link>
                                         </>
                                     )}
+                                    {navigation.map((link) => {
+                                        return (
+                                            <Link
+                                            key={link.name}
+                                                href={link.href}
+                                                className="inline-flex items-center border-b-2 border-indigo-500 px-1 pt-1 text-sm font-medium text-gray-900"
+                                            >
+                                               {link.name}
+                                            </Link>
+                                        );
+                                    })}
                                 </div>
                             </div>
 
