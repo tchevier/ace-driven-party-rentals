@@ -54,6 +54,9 @@ body {
 svg.h-5.w-5.text-gray-500 {
     margin-top: 0.45rem
 }
+.left-85 {
+    left: 85%;
+}
 @media (min-width: 768px) {
     .inline-block.rounded-lg {
         position: relative;

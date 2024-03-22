@@ -13,7 +13,7 @@ import { ChevronDownIcon } from '@heroicons/react/20/solid'
 const navigation = {
   categories: [
     {
-      name: 'Women',
+      name: 'Bounce Houses',
       featured: [
         {
           name: 'New Arrivals',
@@ -22,7 +22,7 @@ const navigation = {
           imageAlt: 'Models sitting back to back, wearing Basic Tee in black and bone.',
         },
         {
-          name: 'Basic Tees',
+          name: 'Combos',
           href: '#',
           imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-category-02.jpg',
           imageAlt: 'Close up of Basic Tee fall bundle with off-white, ochre, olive, and black tees.',
@@ -42,7 +42,7 @@ const navigation = {
       ],
     },
     {
-      name: 'Men',
+      name: 'Combos',
       featured: [
         {
           name: 'New Arrivals',
@@ -71,11 +71,7 @@ const navigation = {
         },
       ],
     },
-  ],
-  pages: [
-    { name: 'Company', href: '#' },
-    { name: 'Stores', href: '#' },
-  ],
+  ]
 }
 
 function classNames(...classes: any[]) {
@@ -93,12 +89,12 @@ export default function SecondaryNav() {
           <div className="bg-white">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
               <div className="border-b border-gray-200">
-                <div className="flex h-16 items-center justify-around">
+                <div className="flex justify-around h-16">
 
-                  <div className="hidden h-full lg:flex">
+                  <div className="h-full flex">
                     {/* Flyout menus */}
                     <Popover.Group className="inset-x-0 bottom-0 px-4">
-                      <div className="flex h-full justify-around space-x-8">
+                      <div className="flex h-full space-x-8">
                         {navigation.categories.map((category) => (
                           <Popover key={category.name} className="flex">
                             {({ open }) => (
@@ -141,7 +137,7 @@ export default function SecondaryNav() {
                                                   className="object-cover object-center"
                                                 />
                                               </div>
-                                              <a href={item.href} className="mt-4 block font-medium text-gray-900">
+                                              <a href={"/item/1"} className="mt-4 block font-medium text-gray-900">
                                                 <span className="absolute inset-0 z-10" aria-hidden="true" />
                                                 {item.name}
                                               </a>
@@ -160,15 +156,6 @@ export default function SecondaryNav() {
                           </Popover>
                         ))}
 
-                        {navigation.pages.map((page) => (
-                          <a
-                            key={page.name}
-                            href={page.href}
-                            className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
-                          >
-                            {page.name}
-                          </a>
-                        ))}
                       </div>
                     </Popover.Group>
                   </div>
@@ -184,11 +171,7 @@ export default function SecondaryNav() {
                       <Bars3Icon className="h-6 w-6" aria-hidden="true" />
                     </button>
                   </div> */}
-                  <div className="flex flex-1 items-center justify-end">
-                    <a href="#" className="hidden text-sm font-medium text-gray-700 hover:text-gray-800 lg:block">
-                      Search
-                    </a>
-
+                  <div className="flex items-center justify-end w-3/6">
                     <div className="flex items-center lg:ml-8">
                       {/* Help */}
                       <a href="#" className="p-2 text-gray-400 hover:text-gray-500 lg:hidden">
@@ -201,7 +184,7 @@ export default function SecondaryNav() {
 
                       {/* Cart */}
                       <div className="ml-4 flow-root lg:ml-8">
-                        <a href="#" className="group -m-2 flex items-center p-2">
+                        <a href="/cart" className="group -m-2 flex items-center p-2">
                           <ShoppingBagIcon
                             className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                             aria-hidden="true"

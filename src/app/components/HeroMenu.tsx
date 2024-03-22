@@ -1,7 +1,11 @@
 "use client";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
-import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
+import {
+    CheckIcon,
+    ChevronUpDownIcon,
+    ExclamationCircleIcon,
+} from "@heroicons/react/20/solid";
 import { Datepicker } from "flowbite-react";
 interface RentalType {
     id: number;
@@ -171,7 +175,8 @@ export default function HeroMenu() {
                                 <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
                             </svg>
                         </div>
-                        <Datepicker showTodayButton={false}
+                        <Datepicker
+                            showTodayButton={false}
                             minDate={tomorrowsDate}
                             onSelectedDateChanged={(date: Date) =>
                                 setSelectedDate(date)
@@ -366,17 +371,27 @@ export default function HeroMenu() {
                                 block w-full rounded-md border-0 py-1.5 ps-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
                             placeholder="Enter Zip Code"
                         />
+                        <div className="pointer-events-none relative bottom-7 left-85 flex items-center pr-3">
+                            <ExclamationCircleIcon
+                                className="h-5 w-5 text-red-500"
+                                aria-hidden="true"
+                            />
+                        </div>
+                        <p
+                            className="relative bottom-3 text-sm text-red-600"
+                            id="email-error"
+                        >
+                            We do not deliver to this Zip Code!
+                        </p>
                     </div>
                 </div>
-                
             </div>
-           
 
             <div className="mt-4 flex justify-between gap-x-6">
-            <p className="mt-4 text-sm leading-6 text-gray-600">
-               Last Minute Bookings Call{" "}
-                <a href="tel:6823762190">(682)376-2190</a>
-            </p>
+                <p className="mt-4 text-sm leading-6 text-gray-600">
+                    Last Minute Bookings Call{" "}
+                    <a href="tel:6823762190">(682)376-2190</a>
+                </p>
                 <button
                     type="button"
                     onClick={handleSearch}
