@@ -18,11 +18,12 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+let analytics;
 
-if (getAnalytics.isSupported()) {
-  const analytics = getAnalytics(app);
-  // Initialize Firebase Analytics here
-} else {
+try {
+  analytics = getAnalytics(app);
+  // Firebase Analytics is supported
+} catch (error) {
   console.log('Firebase Analytics is not supported in this environment.');
 }
 
