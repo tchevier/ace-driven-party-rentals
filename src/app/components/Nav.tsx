@@ -1,24 +1,31 @@
 "use client";
-import { Fragment } from "react";
-import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Disclosure } from "@headlessui/react";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import Link from "next/link";
-import { SignIn, SignInButton, UserButton, useUser } from "@clerk/nextjs";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../firebase";
+import { useEffect, useState } from "react";
 
 function classNames(...classes: any[]) {
     return classes.filter(Boolean).join(" ");
 }
 const navigation = [{ href: "/inventory", name: "Inventory" }];
 export default function Navbar() {
-    const { user, isLoaded } = useUser();
-
+    const [isLoading, setIsLoading] = useState(true);
+    const [user] = useAuthState(auth);
+    useEffect(() => {
+        setIsLoading(false);
+    }, [user]);
     return (
-        <Disclosure as="nav" className="bg-white z-10">
-            {({ open }) => (
+        <Disclosure
+            as="nav"
+            className="bg-green-600 sm:bg-gradient-to-r sm:from-green-800 sm:via-green-500 sm:to-blue-800 focus:outline-none focus:ring-green-300 shadow-lg px-5 py-2.5 text-center z-10"
+        >
+            {({ open }: any) => (
                 <>
-                    <div className=" mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-                        <div className="relative flex h-16 justify-between">
+                    <div className=" mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 ">
+                        <div className="relative flex h-16 justify-between ">
                             <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                                 {/* Mobile menu button */}
                                 <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
@@ -44,84 +51,97 @@ export default function Navbar() {
                                     <Link href="/">
                                         <div className="flex items-center">
                                             <Image
-                                                className=""
-                                                width={120}
+                                                className="transformLogo"
+                                                width={140}
                                                 height={200}
-                                                src="/ace-logo.png"
-                                                alt="Your Company"
+                                                src="/logos/ace-logo.png"
+                                                alt="ACE DRIVEN PARTY RENTALS"
                                             />
                                         </div>
                                     </Link>
                                 </div>
                                 <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
-                                    {isLoaded && user && (
-                                        <>
-                                            <Link
-                                                href="/dashboard"
-                                                className="inline-flex items-center border-b-2 border-indigo-500 px-1 pt-1 text-sm font-medium text-gray-900"
-                                            >
-                                                Dashboard
-                                            </Link>
-                                        </>
-                                    )}
                                     {navigation.map((link) => {
                                         return (
                                             <Link
-                                            key={link.name}
+                                                key={link.name}
                                                 href={link.href}
-                                                className="inline-flex items-center border-b-2 border-indigo-500 px-1 pt-1 text-sm font-medium text-gray-900"
+                                                className="inline-flex items-center px-1 pt-1 text-sm font-medium text-white"
                                             >
-                                               {link.name}
+                                                {link.name}
                                             </Link>
                                         );
                                     })}
+                                    
                                 </div>
                             </div>
-
-                            {(isLoaded && user && (
-                                <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                                    {/* Profile dropdown */}
-                                    <UserButton afterSignOutUrl="/" />
-                                </div>
-                            )) || (
-                                <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                                    {/* Profile dropdown */}
-                                    <SignInButton>
-                                        <button className="hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
-                                            Sign In
-                                        </button>
-                                    </SignInButton>
+                            {!user && !isLoading && (
+                                <div className="hidden inset-y-0 right-0 sm:flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0 ">
+                                    <Link
+                                        href={"/sign-in"}
+                                        className="rounded-md px-3.5 py-2.5 mt-2 text-sm font-semibold text-white  ring-inset hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500"
+                                    >
+                                        Sign In
+                                    </Link>
+                                    <Link
+                                        href={"/sign-up"}
+                                        className="rounded-md px-3.5 py-2.5 mt-2 text-sm font-semibold text-white ring-inset hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500"
+                                    >
+                                        Sign Up
+                                    </Link>
                                 </div>
                             )}
+                            {user && (
+                                        <button
+                                            className="rounded-md px-3.5  mt-2 text-sm font-semibold text-white ring-inset hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-1 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500"
+                                            onClick={() => auth.signOut()}
+                                        >
+                                            Sign Out
+                                        </button>
+                                    )}
                         </div>
                     </div>
 
                     <Disclosure.Panel className="sm:hidden">
                         <div className="space-y-1 pb-4 pt-2">
-                            {/* Current: "bg-indigo-50 border-indigo-500 text-indigo-700", Default: "border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700" */}
-                            {isLoaded && user && (
-                                        <>
-                                            <Disclosure.Button
-                                                as="a"
-                                                href="/dashboard"
-                                                className="block border-l-4 border-indigo-500 bg-indigo-50 py-2 pl-3 pr-4 text-base font-medium text-indigo-700"
-                                            >
-                                                Dashboard
-                                            </Disclosure.Button>
-                                        </>
-                                    )}
                             {navigation.map((link) => {
-                                        return (
-                                            <Disclosure.Button
-                                            as="a"
-                                            key={link.name}
-                                                href={link.href}
-                                                className="block border-l-4 border-indigo-500 bg-indigo-50 py-2 pl-3 pr-4 text-base font-medium text-indigo-700"
-                                            >
-                                               {link.name}
-                                            </Disclosure.Button>
-                                        );
-                                    })}
+                                return (
+                                    <Disclosure.Button
+                                        as="a"
+                                        key={link.name}
+                                        href={link.href}
+                                        className="flex items-center px-1 pt-1 text-md font-medium text-white mt-1"
+                                    >
+                                        {link.name}
+                                    </Disclosure.Button>
+                                );
+                            })}
+                            {user && (
+                                <Disclosure.Button
+                                    className="flex items-center px-1 pt-1 text-md font-medium text-white mt-1"
+                                    onClick={() => auth.signOut()}
+                                >
+                                    Sign Out
+                                </Disclosure.Button>
+                            )}
+                            {!user && !isLoading && (
+                                <>
+                                    <Disclosure.Button
+                                        as="a"
+                                        className="flex items-center px-1 pt-1 text-md font-medium text-white mt-1"
+                                        href={"/sign-in"}
+                                    >
+                                        Sign In
+                                    </Disclosure.Button>
+                                    <Disclosure.Button
+                                        as="a"
+                                        className="flex items-center px-1 pt-1 text-md font-medium text-white mt-1"
+                                        href={"/sign-up"}
+                                    >
+                                        Sign Up
+                                    </Disclosure.Button>
+                                </>
+                            )}
                         </div>
                     </Disclosure.Panel>
                 </>

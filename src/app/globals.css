@@ -17,7 +17,7 @@
 }
 
 body {
-    color: rgb(var(--foreground-rgb));
+    color: black;
     background: linear-gradient(
             to bottom,
             transparent,
@@ -42,10 +42,6 @@ body {
         url("/bounceparty.jpg");
 }
 /* Third party calender on front page menu */
-.inline-block.rounded-lg {
-    position: relative;
-    right: 11rem;
-}
 .block.w-full.border{ 
     padding-top: 0.4rem;
     padding-bottom: 0.4rem;
@@ -62,8 +58,15 @@ svg.h-5.w-5.text-gray-500 {
         position: relative;
         right: 0;
     }
-}
 
+}
+@media (max-width: 640px) {
+    .transformLogo {
+        /* Override positioning */
+        position: absolute;
+        left: 33.33%;
+    }
+}
 @layer utilities {
     .text-balance {
         text-wrap: balance;
