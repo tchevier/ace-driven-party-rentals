@@ -3,8 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Product, getProductsByFilter } from "../actions/products";
 import Image from "next/image";
 import Link from "next/link";
-import { useParams, useSearchParams } from "next/navigation";
-import { validateZipCode } from "../actions/users";
+import { useSearchParams } from "next/navigation";
 
 export default function ProductsListing({ products }: { products: Product[] }) {
   const [productList, setProductList] = useState<Product[]>(products);
@@ -22,7 +21,7 @@ export default function ProductsListing({ products }: { products: Product[] }) {
   }, [params]);
   return (
     <div className="bg-white">
-      <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+      <div className="mx-auto max-w-2xl px-4 py-8 sm:px-6 lg:max-w-7xl lg:px-8">
         <h2 className="text-2xl font-bold tracking-tight text-gray-900">
           Bounce Houses
         </h2>
@@ -63,7 +62,7 @@ export default function ProductsListing({ products }: { products: Product[] }) {
             ))}
         </div>
       </div>
-      <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+      <div className="mx-auto max-w-2xl px-4 py-8 sm:px-6  lg:max-w-7xl lg:px-8">
         <h2 className="text-2xl font-bold tracking-tight text-gray-900">
           Add Ons
         </h2>

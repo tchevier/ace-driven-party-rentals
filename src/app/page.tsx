@@ -1,6 +1,6 @@
 "use server";
-import Link from "next/link";
 import { getProducts } from "./actions/products";
+import Loading from "./components/Loading";
 import Navbar from "./components/Navbar";
 import ProductsListing from "./components/ProductsListing";
 import { Suspense } from "react";
@@ -12,8 +12,7 @@ export default async function Home() {
   }
   return (
     <>
-      <Suspense fallback={<h1>Loading...</h1>}>
-        <Navbar />
+      <Suspense fallback={<Loading />}>
         <ProductsListing products={products} />
       </Suspense>
     </>

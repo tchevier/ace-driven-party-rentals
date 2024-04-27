@@ -1,5 +1,5 @@
 {
-  "name": "marina-software",
+  "name": "ace-driven-party-rentals",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -18,6 +18,7 @@
     "@mui/x-date-pickers-pro": "^6.19.8",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/forms": "^0.5.7",
+    "@tailwindcss/typography": "^0.5.13",
     "dotenv": "^16.4.5",
     "firebase": "^10.9.0",
     "flowbite": "^2.3.0",

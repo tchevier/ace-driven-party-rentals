@@ -1,14 +1,10 @@
 "use server";
 import {
-  GoogleAuthProvider,
   signInWithEmailAndPassword,
-  signInWithPopup,
 } from "firebase/auth";
 import { auth, db } from "../firebase";
 import { redirect } from "next/navigation";
-import { addDoc, collection, doc, getDoc, getDocs } from "firebase/firestore";
-import { error } from "console";
-import { Z_UNKNOWN } from "zlib";
+import { collection, getDocs } from "firebase/firestore";
 
 export const doSignInWithEmailAndPassword = async (formData: FormData) => {
   try {
