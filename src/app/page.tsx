@@ -12,9 +12,7 @@ export default async function Home() {
   }
   return (
     <>
-      <Suspense fallback={<Loading />}>
-        <ProductsListing products={products} />
-      </Suspense>
+      <ProductsListing products={products} />
     </>
   );
 }
