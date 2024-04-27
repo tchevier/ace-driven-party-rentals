@@ -1,13 +1,15 @@
 "use client";
 import { useState } from "react";
-import {
-    useCreateUserWithEmailAndPassword,
-    useSignInWithFacebook,
-} from "react-firebase-hooks/auth";
+import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { auth } from "@/app/firebase";
+import { useRouter } from "next/router";
+import { FirebaseError } from "firebase/app";
+import { UserCredential, getAuth } from "firebase/auth";
+
 export default function SignUpPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState<string | null>(null);
 
     const [createUserWithEmailAndPassword] =
         useCreateUserWithEmailAndPassword(auth);
@@ -15,10 +17,15 @@ export default function SignUpPage() {
     const handleSubmit = async () => {
         try {
             const res = await createUserWithEmailAndPassword(email, password);
+            console.log(res)
             setEmail("");
-            setPassword("");
-        } catch {}
+            setPassword("")
+        } catch (error: any) {
+            console.error("Sign up error:", error);
+            setError(error?.message || "An unknown error occurred.");
+        }
     };
+
     return (
         <>
             <div className="flex min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
@@ -32,7 +39,7 @@ export default function SignUpPage() {
                         Sign Up
                     </h2>
                 </div>
-
+                {error && <h1>{error}</h1>}
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
                     <div className="bg-white px-6 py-12 shadow sm:rounded-lg sm:px-12">
                         <form
@@ -55,6 +62,7 @@ export default function SignUpPage() {
                                         required
                                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                         placeholder="Email address"
+                                        value={email}
                                         onChange={(e) =>
                                             setEmail(e.target.value)
                                         }
@@ -78,6 +86,7 @@ export default function SignUpPage() {
                                         required
                                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                         placeholder="Password"
+                                        value={password}
                                         onChange={(e) =>
                                             setPassword(e.target.value)
                                         }
@@ -113,7 +122,7 @@ export default function SignUpPage() {
 
                             <div>
                                 <button
-                                    type="submit"
+                                    type="button" // Change type to button
                                     className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                     onClick={handleSubmit}
                                 >

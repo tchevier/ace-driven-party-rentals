@@ -1,26 +1,18 @@
-"use client";
-import { useAuthState } from "react-firebase-hooks/auth";
-import HeroSection from "./components/HeroSection";
-import Navbar from "./components/Nav";
-import { auth } from "./firebase";
-import { useRouter } from "next/navigation";
+"use server";
+import Link from "next/link";
+import { getProducts } from "./actions/products";
+import Navbar from "./components/Navbar";
+import ProductsListing from "./components/ProductsListing";
+export default async function Home() {
+  const products = await getProducts();
 
-
-export default function Home() {
-    const [user] = useAuthState(auth)
-    const router = useRouter()
-    
-    console.log(user)
-    return (
-        <>
-            {/* {user?.publicMetadata.role === "ADMIN" ? (
-                <DashboardPage />
-            ) : ( */}
-                <>
-                    <Navbar />
-                    <HeroSection />
-                </>
-            {/* )} */}
-        </>
-    );
+  if (!products) {
+    return <h1>No products found</h1>;
+  }
+  return (
+    <>
+      <Navbar />
+      <ProductsListing products={products}/>
+    </>
+  );
 }

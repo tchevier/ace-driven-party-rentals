@@ -41,9 +41,21 @@ body {
         ),
         url("/bounceparty.jpg");
 }
+select:nth-child(2) {
+    background-image: none;
+}
+select:nth-child(3) {
+    background-image: none;
+}
+select:not([size]) {
+    background-image: none;
+}
 /* Third party calender on front page menu */
+.absolute.top-10.z-50 {
+    padding-top: 1.5rem;
+}
 .block.w-full.border{ 
-    padding-top: 0.4rem;
+    padding-top: 1rem;
     padding-bottom: 0.4rem;
     margin-top: 0.55rem
 }
@@ -53,6 +65,10 @@ svg.h-5.w-5.text-gray-500 {
 .left-85 {
     left: 85%;
 }
+.pointer-events-none {
+    visibility: hidden;
+}
+
 @media (min-width: 768px) {
     .inline-block.rounded-lg {
         position: relative;
@@ -60,6 +76,7 @@ svg.h-5.w-5.text-gray-500 {
     }
 
 }
+
 @media (max-width: 640px) {
     .transformLogo {
         /* Override positioning */

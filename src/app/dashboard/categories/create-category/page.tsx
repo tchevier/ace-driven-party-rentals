@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEventHandler, useState } from "react";
-import { Category, addCategory } from "@/app/api/categories";
+import { Category, addCategory } from "@/app/actions/categories";
 
 export default function CreateCategory() {
     const router = useRouter();

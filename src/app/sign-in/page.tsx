@@ -10,18 +10,19 @@ import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 export default function SignUpPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
     const router = useRouter();
 
-    const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
-
-    const handleSubmit = async () => {
+    const handleSignIn = async () => {
         try {
             const res = await signInWithEmailAndPassword(email, password);
-            if (res?.user) {
-                setEmail("");
-                setPassword("");
-                router.push("/");
+            console.log({ res });
+            if (res) {
+                sessionStorage.setItem("user", res.user.uid);
             }
+            setEmail("");
+            setPassword("");
+            router.push("/");
         } catch (e) {
             console.error(e);
         }
@@ -30,8 +31,8 @@ export default function SignUpPage() {
         const provider = new GoogleAuthProvider();
         signInWithPopup(auth, provider).then(() => {
             router.push("/");
-        })
-    }
+        });
+    };
     return (
         <>
             <div className="flex min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
@@ -128,7 +129,7 @@ export default function SignUpPage() {
                                 <button
                                     type="submit"
                                     className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                    onClick={handleSubmit}
+                                    onClick={handleSignIn}
                                 >
                                     Sign in
                                 </button>

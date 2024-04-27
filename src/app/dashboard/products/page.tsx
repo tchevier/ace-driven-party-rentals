@@ -1,27 +1,19 @@
-"use client";
+"use server";
 
 import React, { useState, useEffect } from "react";
-import {
-    Product,
-    RentalFormData,
-    deleteProduct,
-    getProducts,
-} from "../../api/products";
 import Loading from "@/app/components/Loading";
 import DashboardNav from "@/app/components/DashboardNav";
 import Link from "next/link";
+import { Product, deleteProduct, getProducts } from "@/app/actions/products";
+import Image from "next/image";
+import { DeleteForm } from "@/app/components/delete-button";
+export default async function Products() {
+    const products = await getProducts();
 
-export default function Products() {
-    const [products, setProducts] = useState([]);
+    if (!products) {
+        return <Loading />;
+    }
 
-    useEffect(() => {
-        getProducts(setProducts);
-    }, []);
-
-    const handleDelete = (productId: string) => {
-        //delete product
-        deleteProduct(productId);
-    };
     return (
         <div className="flex min-h-[100vh] bg-white">
             <div className="px-4 sm:px-6 lg:px-8 w-full">
@@ -100,27 +92,28 @@ export default function Products() {
                                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                                 {product.category}
                                             </td>
+                                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 flex items-center gap-4">
+                                                {product.images &&
+                                                    product.images.map(
+                                                        (image, index) => (
+                                                            <div
+                                                                key={index}
+                                                                className="relative"
+                                                            >
+                                                                <Image
+                                                                    src={image}
+                                                                    width={100}
+                                                                    height={100}
+                                                                    alt={`Image ${index}`}
+                                                                />
+                                                            </div>
+                                                        )
+                                                    )}
+                                            </td>
                                             <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-                                                <button
-                                                    onClick={() =>
-                                                        handleDelete(product.id)
-                                                    }
-                                                >
-                                                    <svg
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        fill="none"
-                                                        viewBox="0 0 24 24"
-                                                        strokeWidth={1.5}
-                                                        stroke="red"
-                                                        className="w-6 h-6"
-                                                    >
-                                                        <path
-                                                            strokeLinecap="round"
-                                                            strokeLinejoin="round"
-                                                            d="M6 18 18 6M6 6l12 12"
-                                                        />
-                                                    </svg>
-                                                </button>
+                                                <DeleteForm
+                                                    id={product.id}
+                                                />
                                             </td>
                                         </tr>
                                     ))}
