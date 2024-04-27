@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getProducts } from "./actions/products";
 import Navbar from "./components/Navbar";
 import ProductsListing from "./components/ProductsListing";
+import { Suspense } from "react";
 export default async function Home() {
   const products = await getProducts();
 
@@ -11,8 +12,10 @@ export default async function Home() {
   }
   return (
     <>
-      <Navbar />
-      <ProductsListing products={products}/>
+      <Suspense fallback={<h1>Loading...</h1>}>
+        <Navbar />
+        <ProductsListing products={products} />
+      </Suspense>
     </>
   );
 }

@@ -25,7 +25,7 @@ export interface Product {
     rentedDates: string[];
 }
 
-export async function getProductsByFilter(date: Date) {
+export async function getProductsByFilter(date: string) {
     try {
         const q = query(collection(db, "products"));
         const querySnapshot = await getDocs(q);

@@ -10,11 +10,11 @@ export default function ProductsListing({ products }: { products: Product[] }) {
   const [productList, setProductList] = useState<Product[]>(products);
   const params = useSearchParams();
   useEffect(() => {
-    if (params.get("zipcode")) {
+    const date = params.get("date");
+    const zipCode = params.get("zipcode");
+    if (zipCode && date) {
       const fetchFilteredProducts = async () => {
-        const newProducts: Product[] = await getProductsByFilter(
-          params.get("date")
-        );
+        const newProducts: Product[] = await getProductsByFilter(date);
         setProductList(newProducts);
       };
       fetchFilteredProducts();
