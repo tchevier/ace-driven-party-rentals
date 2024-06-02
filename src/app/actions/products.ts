@@ -1,18 +1,6 @@
 "use server";
-import {
-  addDoc,
-  collection,
-  deleteDoc,
-  doc,
-  getDoc,
-  getDocs,
-  query,
-  where,
-} from "firebase/firestore";
-import { db, storage } from "../firebase";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 export interface Product {
   id: string;
   category: string;

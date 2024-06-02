@@ -8,9 +8,9 @@ import { useSearchParams } from "next/navigation";
 export default function ProductsListing({ products }: { products: Product[] }) {
   const [productList, setProductList] = useState<Product[]>(products);
   const params = useSearchParams();
+  const [date, setDate] = useState(params.get("date"));
+  const [zipCode, setZipCode] = useState(params.get("zipcode"));
   useEffect(() => {
-    const date = params.get("date");
-    const zipCode = params.get("zipcode");
     if (zipCode && date) {
       const fetchFilteredProducts = async () => {
         const newProducts: Product[] = await getProductsByFilter(date);
@@ -18,12 +18,16 @@ export default function ProductsListing({ products }: { products: Product[] }) {
       };
       fetchFilteredProducts();
     }
-  }, [params]);
+  }, [date, zipCode]);
+  useEffect(() => {
+    setZipCode(params.get("zipcode"));
+    setDate(params.get("date"));
+  }, [params])
   return (
     <div className="bg-white">
       <div className="mx-auto max-w-2xl px-4 py-8 sm:px-6 lg:max-w-7xl lg:px-8">
         <h2 className="text-2xl font-bold tracking-tight text-gray-900">
-          Bounce Houses
+          { date && zipCode ? `Bounce Houses Available at ${zipCode} on ${new Date(date).toLocaleDateString()}` : "Bounce Houses" }
         </h2>
 
         <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">

@@ -3,10 +3,9 @@ import { Disclosure } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import Link from "next/link";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../firebase";
 import { useEffect, useState } from "react";
 import NavbarForm from "./NavbarForm";
+import Loading from "./Loading";
 
 const navigation = [
   { href: "/checkout", name: "Check Out" },
@@ -117,6 +116,9 @@ export default function Navbar() {
                   >
                     Sign Out
                   </Disclosure.Button>
+                )}
+                {!user && isLoading && (
+                  <Loading />
                 )}
                 {!user && !isLoading && (
                   <>

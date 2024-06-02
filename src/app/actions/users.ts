@@ -1,11 +1,80 @@
 "use server";
-import {
-  signInWithEmailAndPassword,
-} from "firebase/auth";
-import { auth, db } from "../firebase";
 import { redirect } from "next/navigation";
-import { collection, getDocs } from "firebase/firestore";
+import Hashes from "jshashes";
+import { UserModel } from "../models/user";
 
+// Hash password function
+const hashPassword = (password: string) => {
+  const SHA256 = new Hashes.SHA256();
+  return SHA256.hex(password);
+};
+
+export const isFormValid = async (formData: FormData) => {
+  const EMAIL_REGEX =
+    /^(([^<>()\\[\]\\.,;:\s@"]+(\.[^<>()\\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const email = formData.get("email")?.toString();
+  const password = formData.get("password")?.toString();
+  if (email !== undefined && password !== undefined) {
+    if (EMAIL_REGEX.test(email) && password.length >= 8) {
+      return { isValid: true, error: "" };
+    }
+    if (!EMAIL_REGEX.test(email)) {
+      return { isValid: false, error: "Invalid Email" };
+    }
+    if (password.length < 8) {
+      return {
+        isValid: false,
+        error: "Password must be at least 8 characters.",
+      };
+    }
+  }
+  return { isValid: false, error: "Invalid Email or Password" };
+};
+// export const createUser = async (
+//   formData: FormData
+// ): Promise<{ user: UserModel | null; error: string }> => {
+//   const email = formData.get("email") as string;
+//   const password = formData.get("password") as string;
+
+//   // Check if the user with this email already exists
+//   const userExists = await getUserByEmail(email);
+//   if (userExists) {
+//     return { user: null, error: "A user with this email already exists." };
+//   }
+
+//   // Create the user
+//   const hashedPassword = hashPassword(password);
+//   try {
+//     const newUserRef: DocumentReference = await addDoc(
+//       collection(db, "users"),
+//       {
+//         firstName: "",
+//         lastName: "",
+//         phoneNumber: "",
+//         email,
+//         hashedPassword,
+//         provider: "credentials",
+//       }
+//     );
+
+//     // Return the created user with UserModel format
+//     const newUser: UserModel = {
+//       id: newUserRef.id,
+//       email,
+//       hashedPassword,
+//       provider: "credentials",
+//     };
+
+//     return { user: newUser, error: "" };
+//   } catch (error) {
+//     return { user: null, error: "Failed to create user." };
+//   }
+// };
+// export const getUserByEmail = async (email: string) => {
+//   const q = query(collection(db, "users"), where("email", "==", email));
+//   const querySnapshot = await getDocs(q);
+//   return !querySnapshot.empty;
+// };
 export const doSignInWithEmailAndPassword = async (formData: FormData) => {
   try {
     console.log(formData);
@@ -14,7 +83,7 @@ export const doSignInWithEmailAndPassword = async (formData: FormData) => {
       formData.get("email") as string,
       formData.get("password") as string
     );
-
+    console.log(res?.user);
     if (res?.user) {
       // Redirect on the client-side
       return redirect("/");

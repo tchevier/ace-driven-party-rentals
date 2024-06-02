@@ -1,12 +1,4 @@
 'use server'
-import {
-    addDoc,
-    collection,
-    deleteDoc,
-    doc,
-    onSnapshot,
-} from "firebase/firestore";
-import { db } from "../firebase";
 
 export interface Category {
     id: string,

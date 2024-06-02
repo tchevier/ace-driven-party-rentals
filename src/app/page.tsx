@@ -1,9 +1,6 @@
 "use server";
 import { getProducts } from "./actions/products";
-import Loading from "./components/Loading";
-import Navbar from "./components/Navbar";
 import ProductsListing from "./components/ProductsListing";
-import { Suspense } from "react";
 export default async function Home() {
   const products = await getProducts();
 
@@ -12,7 +9,7 @@ export default async function Home() {
   }
   return (
     <>
-      <ProductsListing products={products} />
+        <ProductsListing products={products} />
     </>
   );
 }

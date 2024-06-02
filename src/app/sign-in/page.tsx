@@ -1,12 +1,6 @@
 "use client";
 import { useState } from "react";
-import {
-    useSignInWithEmailAndPassword,
-    useSignInWithGoogle,
-} from "react-firebase-hooks/auth";
-import { auth } from "@/app/firebase";
 import { useRouter } from "next/navigation";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 export default function SignUpPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
